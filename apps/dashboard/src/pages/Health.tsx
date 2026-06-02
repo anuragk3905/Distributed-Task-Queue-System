@@ -35,14 +35,16 @@ export default function Health() {
   }, []);
 
   const getStatusBadge = (status: string) => {
-    if (status === "ok" || status === "up") {
+    const s = (status || "").toLowerCase();
+    if (s === "ok" || s === "up" || s === "healthy" || s === "ready") {
       return <Badge variant="success" className="uppercase">{status}</Badge>;
     }
     return <Badge variant="destructive" className="uppercase">{status || "down"}</Badge>;
   };
 
   const getStatusIcon = (status: string) => {
-    if (status === "ok" || status === "up") {
+    const s = (status || "").toLowerCase();
+    if (s === "ok" || s === "up" || s === "healthy" || s === "ready") {
       return <ShieldCheck className="h-6 w-6 text-emerald-500" />;
     }
     return <ShieldAlert className="h-6 w-6 text-destructive" />;
