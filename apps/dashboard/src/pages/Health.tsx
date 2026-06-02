@@ -14,9 +14,9 @@ export default function Health() {
   const fetchHealth = async () => {
     try {
       const [h, l, r] = await Promise.all([
-        getHealth().catch(() => ({ status: "down" })),
-        getHealthLive().catch(() => ({ status: "down" })),
-        getHealthReady().catch(() => ({ status: "down" }))
+        getHealth().catch((e) => ({ status: `DOWN (${e.message || "Unknown error"})` })),
+        getHealthLive().catch((e) => ({ status: `DOWN (${e.message || "Unknown error"})` })),
+        getHealthReady().catch((e) => ({ status: `DOWN (${e.message || "Unknown error"})` }))
       ]);
       setHealthData(h);
       setLiveData(l);
