@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-background: #09090b; /* Zinc 950 */
+  --color-foreground: #fafafa; /* Zinc 50 */
+  
+  --color-card: #18181b; /* Zinc 900 */
+  --color-card-foreground: #fafafa;
+  
+  --color-popover: #18181b;
+  --color-popover-foreground: #fafafa;
+  
+  --color-primary: #3b82f6; /* Blue 500 */
+  --color-primary-foreground: #ffffff;
+  
+  --color-secondary: #27272a; /* Zinc 800 */
+  --color-secondary-foreground: #fafafa;
+  
+  --color-muted: #27272a;
+  --color-muted-foreground: #a1a1aa; /* Zinc 400 */
+  
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+  
+  --color-destructive: #ef4444; /* Red 500 */
+  --color-destructive-foreground: #fafafa;
+  
+  --color-border: #27272a; /* Zinc 800 */
+  --color-input: #27272a;
+  --color-ring: #3b82f6;
+  
+  --radius-sm: calc(0.5rem - 4px);
+  --radius-md: calc(0.5rem - 2px);
+  --radius-lg: 0.5rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  
+  *, ::before, ::after {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-card/80 backdrop-blur-md border border-border;
+  }
+}
