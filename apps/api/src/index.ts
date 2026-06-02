@@ -14,23 +14,23 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import rateLimit from "express-rate-limit";
 
-const app=express();
+const app = express();
 
-const generalLimiter=rateLimit({
-windowMs:15*60*1000,
-max:1000,
-message:"Too many requests",
+const generalLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 1000,
+    message: "Too many requests",
 });
 
-const taskLimiter=rateLimit({
-windowMs:60*1000,
-max:200,
-message:"Too many task requests",
+const taskLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 200,
+    message: "Too many task requests",
 });
 
 app.use(cors({
-origin:["http://localhost:5173","https://distributed-task-queue-system.vercel.app"],
-credentials:true,
+    origin: ["http://localhost:5173", "https://distributed-task-queue-system.vercel.app"],
+    credentials: true,
 }));
 
 app.use(express.json());
@@ -40,19 +40,19 @@ app.use(generalLimiter);
 
 connectDB();
 
-app.use("/health",healthRoutes);
-app.use("/api/auth",authRoutes);
-app.use("/api/users",userRoutes);
-app.use("/api/tasks",taskLimiter,taskRoutes);
-app.use("/api/queues",queueRoutes);
-app.use("/api/workers",workerRoutes);
-app.use("/api/workflows",workflowRoutes);
-app.use("/admin/queues",serverAdapter.getRouter());
+app.use("/health", healthRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/tasks", taskLimiter, taskRoutes);
+app.use("/api/queues", queueRoutes);
+app.use("/api/workers", workerRoutes);
+app.use("/api/workflows", workflowRoutes);
+app.use("/admin/queues", serverAdapter.getRouter());
 
-app.get("/",(_,res)=>{
-res.send("API Running");
+app.get("/", (_, res) => {
+    res.send("API Running");
 });
 
-app.listen(3000,()=>{
-console.log("Server running");
+app.listen(3000, () => {
+    console.log("Server running");
 });
