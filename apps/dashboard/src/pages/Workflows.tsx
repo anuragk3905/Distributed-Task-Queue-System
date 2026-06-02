@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+import { useSocket } from "../hooks/useSocket";
 import toast from "react-hot-toast";
 import { Play, GitMerge, FileText, FileDown, Mail, ArrowDown, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/Card";
@@ -26,19 +26,13 @@ export default function Workflows() {
       setLoading(false);
     }
   };
+  useSocket("job-progress", () => {
+    // Refresh workflows when there is progress so the UI updates
+    loadWorkflows();
+  });
+
   useEffect(() => {
     loadWorkflows();
-
-    const socket = io("http://localhost:3000");
-    socket.on("job-progress", () => {
-      // Refresh workflows when there is progress so the UI updates
-      // This is a simple approach; optimizing it would update the state directly
-      loadWorkflows();
-    });
-
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   const handleTriggerReport = async () => {

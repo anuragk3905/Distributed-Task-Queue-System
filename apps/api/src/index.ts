@@ -29,7 +29,7 @@ message:"Too many task requests",
 });
 
 app.use(cors({
-origin:["http://localhost:5173","https://distributed-task-queue-system.vercel.app/"],
+origin:["http://localhost:5173","https://distributed-task-queue-system.vercel.app"],
 credentials:true,
 }));
 
