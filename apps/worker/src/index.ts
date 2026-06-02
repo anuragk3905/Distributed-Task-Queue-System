@@ -4,7 +4,7 @@ import { dlqQueue } from "./queues/dlqQueue.js";
 import { io } from "socket.io-client";
 import axios from "axios";
 
-const socket = io("http://localhost:4000");
+const socket = io(process.env.SOCKET_URL!);
 
 socket.on("connect", () => {
 console.log(
@@ -27,7 +27,7 @@ const workerId=
 const sendHeartbeat=async()=> {
 try {
 await axios.post(
-"http://localhost:3000/api/workers/heartbeat",
+`${process.env.API_URL}/api/workers/heartbeat`,
 {
 workerId,
 status:"active",
