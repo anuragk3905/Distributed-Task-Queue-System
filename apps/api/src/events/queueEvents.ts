@@ -5,7 +5,7 @@ import { Task } from "../models/Task.js";
 import { jobsProcessed,jobDuration } from "../config/metrics.js";
 
 const queueEventsConnection=new Redis(
-process.env.UPSTASH_REDIS_URL!,
+process.env.REDIS_URL || process.env.UPSTASH_REDIS_URL!,
 {
 maxRetriesPerRequest:null,
 }

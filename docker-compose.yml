@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: distributed-task-queue-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - task-queue-network
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: distributed-task-queue-api
+    ports:
+      - "3000:3000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./apps/api/.env
+    depends_on:
+      - redis
+    networks:
+      - task-queue-network
+
+  worker:
+    build:
+      context: ./apps/worker
+      dockerfile: Dockerfile
+    container_name: distributed-task-queue-worker
+    environment:
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - ./apps/worker/.env
+    depends_on:
+      - redis
+      - api
+    networks:
+      - task-queue-network
+
+  socket:
+    build:
+      context: ./apps/socket
+      dockerfile: Dockerfile
+    container_name: distributed-task-queue-socket
+    ports:
+      - "4000:4000"
+    networks:
+      - task-queue-network
+
+  dashboard:
+    build:
+      context: ./apps/dashboard
+      dockerfile: Dockerfile
+    container_name: distributed-task-queue-dashboard
+    ports:
+      - "5173:80"
+    env_file:
+      - ./apps/dashboard/.env
+    networks:
+      - task-queue-network
+
+networks:
+  task-queue-network:
+    driver: bridge
+
+volumes:
+  redis_data:
